@@ -1,6 +1,10 @@
 from art import logo
 from deck import *
 import random as rd
+import os
+
+
+def clear(): return os.system('cls')
 
 
 def pickACard():
@@ -9,7 +13,7 @@ def pickACard():
     return card
 
 
-def getHandValue(cards):
+def calculateHandValue(cards):
     handValue = 0
     for card in cards:
         handValue += cardsValue[card]
@@ -21,17 +25,15 @@ def getHandValue(cards):
 
 
 def busted(cards):
-    if getHandValue(cards) > 21:
+    if calculateHandValue(cards) > 21:
         return True
     return False
 
 
 def startGame():
-    myCards.append(pickACard())
-    myCards.append(pickACard())
-
-    computerCards.append(pickACard())
-    computerCards.append(pickACard())
+    for i in range(2):
+        myCards.append(pickACard())
+        computerCards.append(pickACard())
 
     print("The game has started!")
     print(f"Here is your cards: {myCards}")
@@ -40,22 +42,42 @@ def startGame():
 
 print(logo)
 
+
 myCards = []
 computerCards = []
 
 startGame()
 
-keepGoing = True
+takeAnotherCard = True
 
-while keepGoing:
-    print(f"Your hand value is: {getHandValue(myCards)}")
+while takeAnotherCard:
+    print(f"Your hand value is: {calculateHandValue(myCards)}")
     choice = input("Do you want to pick another card? (y or n): ")
     if choice == "n":
-        keepGoing = False
+        takeAnotherCard = False
     else:
         myCards.append(pickACard())
         print(myCards)
         if busted(myCards):
             print(
-                f"Your actual value is {getHandValue(myCards)}, you are busted!")
-            keepGoing = False
+                f"Your actual value is {calculateHandValue(myCards)}, you are busted!")
+            takeAnotherCard = False
+
+computerTurn = True
+
+print(f"These are the computer cards: {computerCards}")
+
+while computerTurn:
+    if calculateHandValue(computerCards) > calculateHandValue(myCards):
+        if not busted(computerCards):
+            print("Computer won!")
+        else:
+            print("Computer busted. You won!")
+        computerTurn = False
+    elif calculateHandValue(computerCards) == calculateHandValue(myCards):
+        print("It's a draw!")
+        computerTurn = False
+    else:
+        computerCards.append(pickACard())
+        print(
+            f"Computer pick another card. These are the computer cards: {computerCards}")
