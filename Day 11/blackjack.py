@@ -1,10 +1,6 @@
 from art import logo
 from deck import *
 import random as rd
-import os
-
-
-def clear(): return os.system('cls')
 
 
 def pickACard():
