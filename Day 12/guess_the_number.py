@@ -2,6 +2,9 @@ from operator import mod
 from art import logo
 import random as rd
 
+MODE_EASY_ATTEMPTS = 7
+MODE_HARD_ATTEMPTS = 4
+
 print(logo)
 print("Welcome to Guess the number!")
 mode = input(
@@ -9,23 +12,34 @@ mode = input(
 attempts = 0
 
 if mode == "easy":
-    attempts = 7
+    attempts = MODE_EASY_ATTEMPTS
 else:
-    attempts = 4
+    attempts = MODE_HARD_ATTEMPTS
 
-randomNumber = rd.randint(1, 100)
+numberToGuess = rd.randint(1, 100)
 
 gameOver = False
 
-while attempts > 0 and not gameOver:
-    print(f"You have {attempts} attempts left.")
-    guess = int(input("What number am I thinking about? "))
-    if guess == randomNumber:
+
+def playerWon(numberToGuess, playerGuess):
+    if playerGuess == numberToGuess:
         print("Exactly! You won!")
-        gameOver = True
-    elif guess > randomNumber:
+        return True
+    elif playerGuess > numberToGuess:
         print("Too high.")
-        attempts -= 1
+        return False
     else:
         print("Too low.")
+        return False
+
+
+while attempts > 0 and not gameOver:
+    print(f"You have {attempts} attempts left.")
+    playerGuess = int(input("What number am I thinking about? "))
+    if playerWon(numberToGuess, playerGuess):
+        gameOver = True
+    else:
         attempts -= 1
+
+if attempts == 0 and not gameOver:
+    print(f"You lost! The number was {numberToGuess}")
