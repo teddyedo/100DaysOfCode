@@ -1,4 +1,3 @@
-from operator import mod
 from art import logo
 import random as rd
 
