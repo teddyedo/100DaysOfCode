@@ -3,6 +3,10 @@ from art import logo
 from art import vs
 from data import data
 import random as rd
+import os
+
+
+def clear(): return os.system('cls')
 
 
 def showVipInfo(firstVip, secondVip):
@@ -35,10 +39,11 @@ def playATurn(firstVip):
     secondVip = pickAVip()
     showVipInfo(firstVip, secondVip)
     choice = input(("Which one has more followers on Instagram? (A or B): "))
+    clear()
     if choiceCorrect(choice, firstVip, secondVip):
-        print(
-            f"That's right! {secondVip['name']} has {secondVip['follower_count']} million followers. go on with the next one.")
         score += 1
+        print(
+            f"That's right! {secondVip['name']} has {secondVip['follower_count']} million followers. go on with the next one. Current score: {score}")
         if score == 49:
             print("Congratulation! You won the game!!!")
         else:
