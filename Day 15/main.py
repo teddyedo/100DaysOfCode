@@ -20,39 +20,17 @@ def showReport():
 
 def resourcesAreEnough(drink):
     drinkRecipe = MENU[drink]
-    if drink == "espresso":
-        if drinkRecipe["ingredients"]["water"] > resources["water"]:
-            print("Sorry, there isn't enough water")
-            return False
-        if drinkRecipe["ingredients"]["coffee"] > resources["coffee"]:
-            print("Sorry, there isn't enough coffee")
-            return False
-        return True
-    elif drink == "latte":
-        if drinkRecipe["ingredients"]["water"] > resources["water"]:
-            print("Sorry, there isn't enough water")
-            return False
-        if drinkRecipe["ingredients"]["coffee"] > resources["coffee"]:
-            print("Sorry, there isn't enough coffee")
-            return False
-        if drinkRecipe["ingredients"]["milk"] > resources["milk"]:
-            print("Sorry, there isn't enough milk")
-            return False
-        return True
-    elif drink == "cappuccino":
-        if drinkRecipe["ingredients"]["water"] > resources["water"]:
-            print("Sorry, there isn't enough water")
-            return False
-        if drinkRecipe["ingredients"]["coffee"] > resources["coffee"]:
-            print("Sorry, there isn't enough coffee")
-            return False
-        if drinkRecipe["ingredients"]["milk"] > resources["milk"]:
-            print("Sorry, there isn't enough milk")
-            return False
-        return True
-    else:
-        print("This drink is not supported")
+    if drinkRecipe["ingredients"]["water"] > resources["water"]:
+        print("Sorry, there isn't enough water")
         return False
+    if drinkRecipe["ingredients"]["coffee"] > resources["coffee"]:
+        print("Sorry, there isn't enough coffee")
+        return False
+    if drink == "latte" or drink == "cappuccino":
+        if drinkRecipe["ingredients"]["milk"] > resources["milk"]:
+            print("Sorry, there isn't enough milk")
+            return False
+    return True
 
 
 def getTheCoins(drink):
