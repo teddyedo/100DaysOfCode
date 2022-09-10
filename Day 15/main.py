@@ -48,12 +48,11 @@ def elaborateTransaction(drink, moneyAmount):
     if moneyAmount < drinkCost:
         print(
             f"Sorry, not enough money inserted for a {drink}. Money refunded.")
-        return False
     else:
         if moneyAmount > drinkCost:
             print(f"I give you back $ {moneyAmount - drinkCost}")
         resources["money"] += drinkCost
-        return True
+        prepareTheDrink(drink)
 
 
 def prepareTheDrink(drink):
@@ -77,5 +76,4 @@ while keepWorking:
     else:
         if resourcesAreEnough(choice):
             coinsInserted = getTheCoins(choice)
-            if elaborateTransaction(choice, coinsInserted):
-                prepareTheDrink(choice)
+            elaborateTransaction(choice, coinsInserted)
