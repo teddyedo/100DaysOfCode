@@ -1,9 +1,8 @@
-import turtle
 import colorgram
-from turtle import Turtle, Screen
+import turtle as turtle
 import random as rd
 
-myTurtle = Turtle()
+myTurtle = turtle.Turtle()
 colors = colorgram.extract("dots.jpg", 20)
 rgbColors = []
 
@@ -13,15 +12,26 @@ for color in colors:
     b = color.rgb.b
     rgbColors.append((r, g, b))
 
+turtle.colormode(255)
+myTurtle.speed(0)
+myTurtle.penup()
+myTurtle.hideturtle()
 
-for i in range(10):
-    for j in range(10):
-        color = rd.choice(rgbColors)
-        myTurtle.color(color)
-        myTurtle.fillcolor(color)
-        myTurtle.begin_fill()
-        myTurtle.circle(10)
+myTurtle.setheading(225)
+myTurtle.fd(300)
+myTurtle.setheading(0)
+numberOfDots = 100
 
+for dot in range(1, numberOfDots + 1):
+    myTurtle.dot(20, rd.choice(rgbColors))
+    myTurtle.fd(50)
 
-myScreen = Screen()
+    if dot % 10 == 0:
+      myTurtle.setheading(90)
+      myTurtle.fd(50)
+      myTurtle.setheading(180)
+      myTurtle.fd(500)
+      myTurtle.setheading(0)
+
+myScreen = turtle.Screen()
 myScreen.exitonclick()
