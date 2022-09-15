@@ -12,16 +12,16 @@ screen.tracer(0)
 
 snake = Snake()
 screen.listen()
-screen.onkey("Up")
-screen.onkey("Down")
-screen.onkey("Left")
-screen.onkey("Right")
+screen.onkey(snake.up, "Up")
+screen.onkey(snake.down, "Down")
+screen.onkey(snake.left, "Left")
+screen.onkey(snake.right, "Right")
 
 keepGoing = True
 
 while keepGoing:
   screen.update()
-  snake.move("forward")
+  snake.move()
 
 
 screen.exitonclick()
