@@ -1,27 +1,31 @@
-import tkinter
+from tkinter import *
 
-window = tkinter.Tk()
+window = Tk()
 window.title("Miles to km converter")
-window.minsize(300, 300)
+window.minsize(200, 100)
+window.config(padx=20, pady=20)
 
 
 def convert():
     miles = float(entry.get())
-    kmLabel.config(text=miles * 1.609)
+    resultLabel.config(text=miles * 1.609)
 
 
-milesLabel = tkinter.Label(text="Miles")
-kmLabel = tkinter.Label(text="Km")
-equalLabel = tkinter.Label(text="is equal to")
+milesLabel = Label(text="Miles")
+kmLabel = Label(text="Km")
+equalLabel = Label(text="is equal to")
+resultLabel = Label(text="")
 
-entry = tkinter.Entry()
+entry = Entry()
+entry.config(width=10)
 
-calcButton = tkinter.Button(text="Calculate", command=convert)
+calcButton = Button(text="Calculate", command=convert)
 
-milesLabel.pack()
-kmLabel.pack()
-equalLabel.pack()
-entry.pack()
-calcButton.pack()
+entry.grid(column=1, row=0, padx=10)
+milesLabel.grid(column=2, row=0)
+equalLabel.grid(column=0, row=1)
+resultLabel.grid(column=1, row=1)
+kmLabel.grid(column=2, row=1)
+calcButton.grid(column=1, row=2)
 
 window.mainloop()
