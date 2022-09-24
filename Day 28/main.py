@@ -1,22 +1,25 @@
-from email.mime import image
 from tkinter import *
-# ---------------------------- CONSTANTS ------------------------------- #
+
 PINK = "#e2979c"
 RED = "#e7305b"
 GREEN = "#9bdeac"
 YELLOW = "#f7f5dd"
 FONT_NAME = "Courier"
-WORK_MIN = 25
-SHORT_BREAK_MIN = 5
-LONG_BREAK_MIN = 20
+WORK_MIN = 1
+SHORT_BREAK_MIN = 1
+LONG_BREAK_MIN = 1
 TICK = "✓"
 reps = 0
+timer = None
 
-# ---------------------------- TIMER RESET ------------------------------- #
 
-# ---------------------------- TIMER MECHANISM ------------------------------- #
-
-# ---------------------------- COUNTDOWN MECHANISM ------------------------------- #
+def resetTimer():
+    window.after_cancel(timer)
+    timerLabel.config(text="Timer")
+    tickLabel.config(text="")
+    canvas.itemconfig(timerCanvas, text="00:00")
+    global reps
+    reps = 0
 
 
 def startTimer():
@@ -32,18 +35,20 @@ def startTimer():
     else:
         countDown(WORK_MIN * 60)
         timerLabel.config(fg=RED, text="Work")
-        tickLabel.config(text)
 
 
 def countDown(count):
     count_min = count // 60
     count_seconds = count % 60
     canvas.itemconfig(
-        timer, text=f"{'0' * (2- len(str(count_min))) + str(count_min)}:{'0' * (2- len(str(count_seconds))) + str(count_seconds)}")
+        timerCanvas, text=f"{'0' * (2- len(str(count_min))) + str(count_min)}:{'0' * (2- len(str(count_seconds))) + str(count_seconds)}")
     if count > 0:
-        window.after(1000, countDown, count - 1)
-
-# ---------------------------- UI SETUP ------------------------------- #
+        global timer
+        timer = window.after(1000, countDown, count - 1)
+    else:
+        startTimer()
+        global reps
+        tickLabel.config(text=f"{TICK * (reps // 2)}")
 
 
 window = Tk()
@@ -53,8 +58,8 @@ window.config(padx=100, pady=50, bg=YELLOW)
 canvas = Canvas(width=200, height=233, bg=YELLOW, highlightthickness=0)
 tomato = PhotoImage(file="Day 28/tomato.png")
 canvas.create_image(100, 112, image=tomato)
-timer = canvas.create_text(102, 130, text="00:00", fill="white",
-                           font=(FONT_NAME, 30, "bold"))
+timerCanvas = canvas.create_text(102, 130, text="00:00", fill="white",
+                                 font=(FONT_NAME, 30, "bold"))
 canvas.grid(column=1, row=1)
 
 timerLabel = Label(text="Timer", font=(
@@ -64,10 +69,10 @@ timerLabel.grid(column=1, row=0)
 startButton = Button(text="Start", command=startTimer)
 startButton.grid(column=0, row=2)
 
-resetButton = Button(text="Reset")
+resetButton = Button(text="Reset", command=resetTimer)
 resetButton.grid(column=2, row=2)
 
-tickLabel = Label(text=TICK, font=(
+tickLabel = Label(text="", font=(
     FONT_NAME, 20, "bold"), fg=GREEN, bg=YELLOW)
 tickLabel.grid(column=1, row=3)
 
