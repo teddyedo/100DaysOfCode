@@ -1,12 +1,15 @@
 import requests
+import datetime
 
-APP_ID = "fb7a8c01"
-APP_KEY = "08612e6e1c48cb6b3496f584297c0eaa"
+APP_ID = "***************"
+APP_KEY = "*****************************"
 
-EXCERCISE_INFO_ENDPOINT = "https://trackapi.nutritionix.com/v2/natural/exercise"
+EXERCISE_INFO_ENDPOINT = "https://trackapi.nutritionix.com/v2/natural/exercise"
+
+SHEETY_ENDPOINT = "https://api.sheety.co/****************************/myWorkouts/workouts"
 
 
-def get_burned_cal():
+def get_exercise_info():
     activity = input("What you did today? ")
 
     header = {"x-app-id": APP_ID, "x-app-key": APP_KEY,
@@ -15,10 +18,31 @@ def get_burned_cal():
     parameters = {"query": activity, "gender": "male",
                   "weight_kg": 75, "height_cm": 178, "age": 21}
 
-    response = requests.post(EXCERCISE_INFO_ENDPOINT,
-                             params=parameters, headers=header)
+    response = requests.post(EXERCISE_INFO_ENDPOINT,
+                             json=parameters, headers=header)
     response.raise_for_status()
-    print(response.json())
+    return response.json()
 
 
-get_burned_cal()
+def add_a_row(exercise_info):
+
+    header = {
+        "Authorization": "Bearer ***************"
+    }
+
+    for exercise in exercise_info["exercises"]:
+        parameters = {
+            "workout": {
+                "date": datetime.date.today().strftime("%d-%m-%Y"),
+                "time": datetime.datetime.now().strftime("%H:%M:%S"),
+                "exercise": exercise["name"].title(),
+                "duration": exercise["duration_min"],
+                "calories": exercise["nf_calories"]
+            }
+        }
+
+        response = requests.post(SHEETY_ENDPOINT, json=parameters, headers=header)
+        response.raise_for_status()
+
+
+add_a_row(get_exercise_info())
