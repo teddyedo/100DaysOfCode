@@ -1,33 +1,26 @@
-import requests
+from data_manager import DataManager
+from flight_search import FlightSearch
+from notification_manager import NotificationManager
 
-READ_SHEET_ENDPOINT = "https://api.sheety.co/c12dc029be876831bcabb98eb45e6af5/flightDeals/prices"
-MODIFY_SHEET_ENDPOINT = "https://api.sheety.co/c12dc029be876831bcabb98eb45e6af5/flightDeals/prices/"
-IATA_ENDPOINT = "https://api.tequila.kiwi.com/locations/query"
+data_manager = DataManager()
+flight_search = FlightSearch()
+notification_manager = NotificationManager()
 
-FLIGHT_API_KEY = "Dpgz6ODoqCJJO6g_egQmYx-6FLy_Wjiv"
+sheet_data = data_manager.get_destination_data()
 
+cities_without_iata = [row
+                       for row in sheet_data if row["iataCode"] == ""]
 
-def get_cities_name():
-    response = requests.get(READ_SHEET_ENDPOINT)
-    return response.json()
+if len(cities_without_iata) > 0:
+    for row in cities_without_iata:
+        row["iataCode"] = flight_search.get_iata_code(row["city"])
 
-
-def get_IATA_codes(cities):
-
-    for row in cities["prices"]:
-        city = row["city"]
-        params = {
-            "term": city,
-            "limit": 10,
-            "locale": "en-US",
-            "location_types": "airport"
-        }
-        header = {
-            "apikey": FLIGHT_API_KEY
-        }
-
-        response = requests.get(IATA_ENDPOINT, params=params, headers=header)
-        print(response.json())
+    data_manager.destination_data = sheet_data
+    data_manager.update_iata_codes()
 
 
-get_IATA_codes(get_cities_name())
+for row in sheet_data:
+    flight = flight_search.search_flight(row["iataCode"])
+    if row["lowestPrice"] > flight.price:
+        notification_manager.send_telegram_message(
+            notification_manager.formatMessage(flight))

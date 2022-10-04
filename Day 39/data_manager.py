@@ -1,3 +1,26 @@
+import requests
+
+READ_SHEET_ENDPOINT = "https://api.sheety.co/**************/flightDeals/prices"
+MODIFY_SHEET_ENDPOINT = "https://api.sheety.co/***************/flightDeals/prices/"
+
+
 class DataManager:
-    #This class is responsible for talking to the Google Sheet.
-    pass
+    def __init__(self):
+        self.destination_data = {}
+
+    def get_destination_data(self):
+        response = requests.get(READ_SHEET_ENDPOINT)
+        self.destination_data = response.json()["prices"]
+        return self.destination_data
+
+    def update_iata_codes(self):
+        for row in self.destination_data:
+            new_data = {
+                "price": {
+                    "iataCode": row["iataCode"]
+                }
+            }
+
+            response = requests.put(
+                f"{MODIFY_SHEET_ENDPOINT}/{row['id']}", json=new_data)
+            response.raise_for_status()
