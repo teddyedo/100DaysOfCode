@@ -24,7 +24,7 @@ if len(cities_without_iata) > 0:
 for row in sheet_data:
     flight = flight_search.search_flight(row["iataCode"])
     if row["lowestPrice"] > flight.price:
-        notification_manager.send_mail("allari.edoardo@gmail.com", flight)
+        notification_manager.send_mail("mail", flight)
 
 
 # user_validation.create_new_user()

@@ -1,7 +1,8 @@
 from user import User
 import requests
 
-ADD_USER_ENDPOINT = "https://api.sheety.co/c12dc029be876831bcabb98eb45e6af5/flightDeals/users"
+ADD_USER_ENDPOINT = "https://api.sheety.co/*******************" \
+                    "/flightDeals/users "
 
 
 class UserValidation:

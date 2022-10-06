@@ -1,6 +1,8 @@
 class FlightData:
 
-    def __init__(self, departure_city, departure_airport, destination_city, destination_airport, price, date_from, date_to, stop_overs=0, via_city=""):
+    def __init__(self, departure_city, departure_airport, destination_city,
+        destination_airport, price, date_from, date_to, book_link, stop_overs=0,
+        via_city=""):
         self.departure_city = departure_city
         self.departure_airport = departure_airport
         self.destination_city = destination_city
@@ -10,3 +12,4 @@ class FlightData:
         self.date_to = date_to
         self.stop_overs = stop_overs
         self.via_city = via_city
+        self.book_link = book_link
