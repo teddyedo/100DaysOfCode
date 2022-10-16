@@ -6,8 +6,8 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 
 SIMILAR_ACCOUNT = "leomessi"
-USERNAME = "allari_edoardo"
-PASSWORD = "Gervaso23"
+USERNAME = "**********"
+PASSWORD = "************"
 
 
 class InstaFollower:
