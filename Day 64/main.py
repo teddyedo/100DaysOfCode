@@ -38,7 +38,7 @@ class AddMovieForm(FlaskForm):
     description = StringField("Description", validators=[DataRequired()])
     review = StringField("Review", validators=[DataRequired()])
     rating = StringField("rating", validators=[DataRequired()])
-    ranking = StringField("ranking", validators=[DataRequired()])’
+    ranking = StringField("ranking", validators=[DataRequired()])
     submit = SubmitField("Save movie")
 
 
